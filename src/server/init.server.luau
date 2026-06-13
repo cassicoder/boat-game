@@ -146,7 +146,7 @@ end)
 
 local loop = Matter.Loop.new(world, state)
 loop:scheduleSystems({
-	-- Buoyancy is now handled natively by Roblox Terrain Water.
+	require(serverRoot.systems.BuoyancySystem),
 	require(serverRoot.systems.BoatMovementSystem),
 	require(serverRoot.systems.FishSpawnSystem),
 	require(serverRoot.systems.FishAISystem),

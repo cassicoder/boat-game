@@ -4,18 +4,19 @@
 local Config = {
 	Ocean = {
 		Size = 1000,        -- studs: full width of the ocean plane (it follows the camera)
-		Resolution = 40,    -- grid cells per side (per-frame normal+color shading: keep modest)
+		Resolution = 34,    -- grid cells per side (position+normal each frame -> modest = smooth)
 		BaseY = 0,          -- sea level in world Y (studs)
 		Color = Color3.fromRGB(16, 92, 126),
-		Transparency = 0.08,
+		Transparency = 0.1,
 	},
 
 	Boat = {
-		DriveForce = 80,   -- forward acceleration per unit throttle (water adds its own drag)
-		TurnRate = 1.6,    -- max yaw rate while turning (rad/s)
-		LinearDrag = 0.3,  -- light extra drag on top of the water's own
-		RollDamp = 0.85,   -- per-frame retain factor for roll/pitch (lower = steadier)
-		MaxSpeed = 105,    -- hard speed cap (studs/s)
+		DriveForce = 60,    -- forward acceleration per unit throttle (studs/s^2, mass-cancelled)
+		TurnRate = 1.6,     -- max yaw rate while turning (rad/s)
+		SteerResponse = 6,  -- how fast yaw eases toward target (higher = snappier, lower = floatier)
+		LinearDrag = 0.4,   -- horizontal velocity bleed-off per second
+		RollDamp = 0.85,    -- per-frame retain factor for roll/pitch (lower = steadier)
+		MaxSpeed = 100,     -- hard speed cap (studs/s)
 	},
 
 	Buoyancy = {

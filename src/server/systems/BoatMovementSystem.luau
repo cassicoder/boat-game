@@ -53,15 +53,14 @@ return function(world, state)
 			end
 		end
 
-		-- Steering + stability: drive yaw directly and bleed off roll/pitch so the
-		-- boat can never tumble. Yaw authority scales with speed (no spin-in-place).
-		local speedFactor = math.clamp(horiz.Magnitude / 6, 0, 1)
+		-- Steering + stability: EASE yaw toward the target (smooth, not a hard snap)
+		-- and bleed off roll/pitch so the boat can't tumble. Yaw authority scales
+		-- with speed (no spin-in-place).
+		local speedFactor = math.clamp(horiz.Magnitude / 8, 0, 1)
+		local targetYaw = -steer * cfg.TurnRate * speedFactor
 		local av = hull.AssemblyAngularVelocity
-		hull.AssemblyAngularVelocity = Vector3.new(
-			av.X * cfg.RollDamp,
-			-steer * cfg.TurnRate * speedFactor,
-			av.Z * cfg.RollDamp
-		)
+		local yaw = av.Y + (targetYaw - av.Y) * math.clamp(cfg.SteerResponse * dt, 0, 1)
+		hull.AssemblyAngularVelocity = Vector3.new(av.X * cfg.RollDamp, yaw, av.Z * cfg.RollDamp)
 
 		-- Hard planar speed cap so nothing can fling the boat across the map.
 		if horiz.Magnitude > cfg.MaxSpeed then
