@@ -11,9 +11,9 @@ local Config = {
 	},
 
 	Boat = {
-		DriveForce = 58,   -- forward acceleration per unit throttle (studs/s^2, mass-cancelled)
-		TurnRate = 1.5,    -- max yaw rate while turning (rad/s)
-		LinearDrag = 0.5,  -- horizontal velocity bleed-off per second
+		DriveForce = 80,   -- forward acceleration per unit throttle (water adds its own drag)
+		TurnRate = 1.6,    -- max yaw rate while turning (rad/s)
+		LinearDrag = 0.3,  -- light extra drag on top of the water's own
 		RollDamp = 0.85,   -- per-frame retain factor for roll/pitch (lower = steadier)
 		MaxSpeed = 105,    -- hard speed cap (studs/s)
 	},
