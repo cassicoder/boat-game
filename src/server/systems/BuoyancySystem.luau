@@ -45,7 +45,7 @@ return function(world, state)
 					-- Normalized submersion: full weight support at TargetSubmersion,
 					-- capped at MaxSubmersion so the force is always bounded.
 					local submersion = math.min(depth, buoy.MaxSubmersion) / buoy.TargetSubmersion
-					local up = perFloater * submersion
+					local up = perFloater * submersion * buoy.LiftBias
 
 					-- Damp the floater's vertical velocity (mass-relative) so the hull
 					-- settles onto the surface instead of bouncing/launching.

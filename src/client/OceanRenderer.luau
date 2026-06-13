@@ -114,6 +114,7 @@ local function buildEditableMesh(size: number, res: number, baseY: number, color
 	part.Material = oceanMaterial()
 	part.Color = color
 	part.Transparency = transparency
+	part.Reflectance = 0.12 -- water sheen so the surface reads as solid, not a film
 	part.Position = Vector3.new(0, baseY, 0)
 	part.Parent = Workspace
 
@@ -230,6 +231,33 @@ local function animatePartGrid(s: PartGridState, originX: number, originZ: numbe
 end
 
 --------------------------------------------------------------------------------
+-- Deep-water volume: a large dark body UNDER the animated surface so the ocean
+-- reads as a thick, deep sea (with real depth toward the horizon) instead of a
+-- thin transparent sheet. Its top sits below the lowest wave trough and it
+-- follows the camera on XZ each frame.
+--------------------------------------------------------------------------------
+local DEEP_DEPTH = 400
+local DEEP_TOP = 7 -- studs below sea level the body's top sits (under the troughs)
+
+local function buildDeepWater(size: number, baseY: number, color: Color3): BasePart
+	local p = Instance.new("Part")
+	p.Name = "OceanDeep"
+	p.Anchored = true
+	p.CanCollide = false
+	p.CanQuery = false
+	p.CanTouch = false
+	p.CastShadow = false
+	p.Material = Enum.Material.SmoothPlastic
+	p.Color = color
+	p.Transparency = 0
+	p.Reflectance = 0.08
+	p.Size = Vector3.new(size * 3, DEEP_DEPTH, size * 3)
+	p.Position = Vector3.new(0, baseY - DEEP_DEPTH / 2 - DEEP_TOP, 0)
+	p.Parent = Workspace
+	return p
+end
+
+--------------------------------------------------------------------------------
 -- Public: start the ocean.
 --------------------------------------------------------------------------------
 function OceanRenderer.start(config)
@@ -261,6 +289,8 @@ function OceanRenderer.start(config)
 		cell = partGrid.cell
 	end
 
+	local deep = buildDeepWater(size, baseY, color:Lerp(Color3.fromRGB(0, 8, 18), 0.6))
+
 	RunService.RenderStepped:Connect(function()
 		camera = Workspace.CurrentCamera
 		local t = Workspace:GetServerTimeNow()
@@ -270,6 +300,10 @@ function OceanRenderer.start(config)
 		local camPos = if camera then camera.CFrame.Position else Vector3.zero
 		local originX = snap(camPos.X, cell)
 		local originZ = snap(camPos.Z, cell)
+
+		-- Keep the deep-water body centered under the camera so the sea fills the
+		-- horizon in every direction.
+		deep.Position = Vector3.new(camPos.X, baseY - DEEP_DEPTH / 2 - DEEP_TOP, camPos.Z)
 
 		if editable then
 			editable.part.Position = Vector3.new(originX, baseY, originZ)
