@@ -3,11 +3,11 @@
 -- ocean renderer. Tune these live once it's running in Studio.
 local Config = {
 	Ocean = {
-		Size = 1200,        -- studs: full width of the ocean plane (it follows the camera)
-		Resolution = 48,    -- grid cells per side for the EditableMesh (48x48 quads)
+		Size = 1000,        -- studs: full width of the ocean plane (it follows the camera)
+		Resolution = 40,    -- grid cells per side (per-frame normal+color shading: keep modest)
 		BaseY = 0,          -- sea level in world Y (studs)
 		Color = Color3.fromRGB(16, 92, 126),
-		Transparency = 0.1,
+		Transparency = 0.08,
 	},
 
 	Boat = {
