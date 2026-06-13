@@ -11,17 +11,18 @@ local Config = {
 	},
 
 	Boat = {
-		DriveForce = 28000, -- forward push per unit of throttle (-1..1)
-		TurnTorque = 11000, -- yaw torque per unit of steer (-1..1)
-		LinearDrag = 1200,  -- water resistance: force opposing horizontal velocity
-		AngularDrag = 2500, -- resistance opposing yaw spin
-		MaxSpeed = 70,      -- soft cap (studs/s) used to taper drive force
+		DriveForce = 35,   -- forward acceleration per unit throttle (studs/s^2, mass-cancelled)
+		TurnRate = 1.2,    -- max yaw rate while turning (rad/s)
+		LinearDrag = 0.8,  -- horizontal velocity bleed-off per second
+		RollDamp = 0.82,   -- per-frame retain factor for roll/pitch (lower = steadier)
+		MaxSpeed = 65,     -- hard speed cap (studs/s)
 	},
 
 	Buoyancy = {
 		FloaterCount = 4,        -- floaters BoatFactory spreads across the hull bottom
-		Strength = 26000,        -- upward force per stud of submersion, per floater
-		VerticalDamping = 1800,  -- opposes vertical velocity at each floater (kills bounce)
+		TargetSubmersion = 1.5,  -- studs the hull settles under the surface at rest
+		MaxSubmersion = 4.0,     -- cap so a deep dunk can't produce an explosive force
+		Damping = 0.2,           -- vertical-velocity damping (mass-relative; kills launch)
 	},
 
 	Fish = {

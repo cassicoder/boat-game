@@ -98,6 +98,16 @@ local function giveBoat(player: Player, character: Model)
 	if character.Parent and humanoid.Health > 0 then
 		character:PivotTo(seat.CFrame * CFrame.new(0, 3, 0))
 		seat:Sit(humanoid)
+		-- Re-assert server ownership: sitting hands the assembly to the client,
+		-- which would fight the server's buoyancy/drive forces (the "going crazy").
+		task.wait(0.2)
+		if model.PrimaryPart then
+			pcall(function()
+				if model.PrimaryPart:CanSetNetworkOwnership() then
+					model.PrimaryPart:SetNetworkOwner(nil)
+				end
+			end)
+		end
 	end
 end
 
