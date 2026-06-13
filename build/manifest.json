@@ -1,0 +1,356 @@
+[
+    {
+        "instPath":  "ReplicatedStorage/Packages",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  4
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  52
+    },
+    {
+        "instPath":  "ServerScriptService/Server",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  44
+    },
+    {
+        "instPath":  "ReplicatedStorage/Shared",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  0
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/OceanRenderer",
+        "className":  "ModuleScript",
+        "src":  "src/client/OceanRenderer.luau",
+        "Order":  54
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/Bootstrap",
+        "className":  "LocalScript",
+        "src":  "src/client/init.client.luau",
+        "Order":  53
+    },
+    {
+        "instPath":  "ServerScriptService/Server/Bootstrap",
+        "className":  "Script",
+        "src":  "src/server/init.server.luau",
+        "Order":  45
+    },
+    {
+        "instPath":  "ServerScriptService/Server/BoatFactory",
+        "className":  "ModuleScript",
+        "src":  "src/server/BoatFactory.luau",
+        "Order":  46
+    },
+    {
+        "instPath":  "ServerScriptService/Server/systems",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  47
+    },
+    {
+        "instPath":  "ReplicatedStorage/Shared/Config",
+        "className":  "ModuleScript",
+        "src":  "src/shared/Config.luau",
+        "Order":  2
+    },
+    {
+        "instPath":  "ReplicatedStorage/Shared/Components",
+        "className":  "ModuleScript",
+        "src":  "src/shared/Components.luau",
+        "Order":  3
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/init.luau",
+        "Order":  5
+    },
+    {
+        "instPath":  "ReplicatedStorage/Shared/Wave",
+        "className":  "ModuleScript",
+        "src":  "src/shared/Wave.luau",
+        "Order":  1
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/Lighting",
+        "className":  "ModuleScript",
+        "src":  "src/client/Lighting.luau",
+        "Order":  55
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/ui",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  56
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/ui/BoatHUD",
+        "className":  "ModuleScript",
+        "src":  "src/client/ui/BoatHUD.luau",
+        "Order":  58
+    },
+    {
+        "instPath":  "ServerScriptService/Server/systems/FishAISystem",
+        "className":  "ModuleScript",
+        "src":  "src/server/systems/FishAISystem.luau",
+        "Order":  51
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/ui/SpawnMenu",
+        "className":  "ModuleScript",
+        "src":  "src/client/ui/SpawnMenu.luau",
+        "Order":  57
+    },
+    {
+        "instPath":  "ServerScriptService/Server/systems/FishSpawnSystem",
+        "className":  "ModuleScript",
+        "src":  "src/server/systems/FishSpawnSystem.luau",
+        "Order":  50
+    },
+    {
+        "instPath":  "ServerScriptService/Server/systems/BuoyancySystem",
+        "className":  "ModuleScript",
+        "src":  "src/server/systems/BuoyancySystem.luau",
+        "Order":  48
+    },
+    {
+        "instPath":  "ServerScriptService/Server/systems/BoatMovementSystem",
+        "className":  "ModuleScript",
+        "src":  "src/server/systems/BoatMovementSystem.luau",
+        "Order":  49
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/component",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/component.luau",
+        "Order":  10
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/Archetype",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/Archetype.luau",
+        "Order":  9
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/topoRuntime",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/topoRuntime.luau",
+        "Order":  15
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/World",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/World.luau",
+        "Order":  16
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/rollingAverage",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/rollingAverage.luau",
+        "Order":  14
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/Queue",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/Queue.luau",
+        "Order":  13
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/Loop",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/Loop.luau",
+        "Order":  12
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/hooks",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  7
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/immutable",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/immutable.luau",
+        "Order":  11
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  6
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/EventBridge",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/EventBridge.luau",
+        "Order":  19
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/debugger",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/debugger.luau",
+        "Order":  18
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/hooks/log",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/hooks/log.luau",
+        "Order":  40
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/hooks/useDeltaTime",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/hooks/useDeltaTime.luau",
+        "Order":  41
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/clientBindings",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/clientBindings.luau",
+        "Order":  17
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/hooks/useThrottle",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/hooks/useThrottle.luau",
+        "Order":  43
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/hooks/useEvent",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/hooks/useEvent.luau",
+        "Order":  42
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/ui",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/ui.luau",
+        "Order":  25
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/mouseHighlight",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/mouseHighlight.luau",
+        "Order":  24
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/hookWorld",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/hookWorld.luau",
+        "Order":  23
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/hookWidgets",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/hookWidgets.luau",
+        "Order":  22
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/getAllComponentData",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/getAllComponentData.luau",
+        "Order":  21
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets",
+        "className":  "Folder",
+        "src":  null,
+        "Order":  8
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/formatTable",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/formatTable.luau",
+        "Order":  20
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/errorInspect",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/errorInspect.luau",
+        "Order":  29
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/frame",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/frame.luau",
+        "Order":  30
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/hoverInspect",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/hoverInspect.luau",
+        "Order":  31
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/link",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/link.luau",
+        "Order":  32
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/codeText",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/codeText.luau",
+        "Order":  26
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/container",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/container.luau",
+        "Order":  27
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/entityInspect",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/entityInspect.luau",
+        "Order":  28
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/panel",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/panel.luau",
+        "Order":  33
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/tooltip",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/tooltip.luau",
+        "Order":  37
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/valueInspect",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/valueInspect.luau",
+        "Order":  38
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/worldInspect",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/worldInspect.luau",
+        "Order":  39
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/queryInspect",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/queryInspect.luau",
+        "Order":  34
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/realmSwitch",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/realmSwitch.luau",
+        "Order":  35
+    },
+    {
+        "instPath":  "ReplicatedStorage/Packages/Matter/debugger/widgets/selectionList",
+        "className":  "ModuleScript",
+        "src":  "Packages/Matter/debugger/widgets/selectionList.luau",
+        "Order":  36
+    }
+]
