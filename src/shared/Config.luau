@@ -20,10 +20,10 @@ local Config = {
 
 	Buoyancy = {
 		FloaterCount = 4,        -- floaters BoatFactory spreads across the hull bottom
-		TargetSubmersion = 0.8,  -- studs the hull settles under the surface at rest
-		MaxSubmersion = 2.5,     -- cap so a deep dunk can't produce an explosive force
-		LiftBias = 1.5,          -- >1 floats the boat higher so the deck rides above water
-		Damping = 0.18,          -- vertical-velocity damping (mass-relative; kills launch)
+		TargetSubmersion = 0.55, -- studs the hull settles under the surface at rest
+		MaxSubmersion = 4.0,     -- cap so a deep dunk can't produce an explosive force
+		LiftBias = 1.7,          -- >1 floats the boat higher (more freeboard above water)
+		Damping = 0.22,          -- vertical-velocity damping (mass-relative; kills launch)
 	},
 
 	Fish = {

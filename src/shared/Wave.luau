@@ -22,10 +22,10 @@ export type WaveDef = {
 
 -- Four layered swells: big slow primary + smaller faster chop on top.
 local WAVES: { WaveDef } = {
-	{ direction = Vector2.new( 1.0,  0.3), wavelength = 85, amplitude = 3.0, steepness = 0.55, speed = 11 },
-	{ direction = Vector2.new(-0.6,  1.0), wavelength = 53, amplitude = 1.7, steepness = 0.50, speed = 9  },
-	{ direction = Vector2.new( 0.4, -0.9), wavelength = 31, amplitude = 0.9, steepness = 0.45, speed = 7  },
-	{ direction = Vector2.new(-1.0, -0.2), wavelength = 18, amplitude = 0.5, steepness = 0.40, speed = 5  },
+	{ direction = Vector2.new( 1.0,  0.35), wavelength = 150, amplitude = 4.5, steepness = 0.50, speed = 12 }, -- big rolling swell
+	{ direction = Vector2.new(-0.5,  1.0),  wavelength = 100, amplitude = 2.6, steepness = 0.45, speed = 10 }, -- cross swell
+	{ direction = Vector2.new( 0.7, -0.6),  wavelength = 58,  amplitude = 1.2, steepness = 0.40, speed = 8  }, -- surface detail
+	{ direction = Vector2.new(-1.0,  0.2),  wavelength = 34,  amplitude = 0.6, steepness = 0.30, speed = 6  }, -- fine ripple
 }
 
 local TAU = 2 * math.pi
@@ -72,6 +72,17 @@ function Wave.GetNormal(x: number, z: number, t: number): Vector3
 	local hD = Wave.GetHeight(x, z - e, t)
 	local hU = Wave.GetHeight(x, z + e, t)
 	return Vector3.new(hL - hR, 2 * e, hD - hU).Unit
+end
+
+-- Sum of wave amplitudes: the highest the surface rises above sea level (and the
+-- deepest a trough falls below it). Used to size the deep-water body so it never
+-- pokes through a trough.
+function Wave.MaxHeight(): number
+	local sum = 0
+	for _, w in WAVES do
+		sum += w.amplitude
+	end
+	return sum
 end
 
 return Wave

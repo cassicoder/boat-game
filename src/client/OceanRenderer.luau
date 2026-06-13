@@ -237,7 +237,8 @@ end
 -- follows the camera on XZ each frame.
 --------------------------------------------------------------------------------
 local DEEP_DEPTH = 400
-local DEEP_TOP = 7 -- studs below sea level the body's top sits (under the troughs)
+-- The body's top sits just under the deepest wave trough so it never pokes through.
+local DEEP_TOP = Wave.MaxHeight() + 1.5
 
 local function buildDeepWater(size: number, baseY: number, color: Color3): BasePart
 	local p = Instance.new("Part")
