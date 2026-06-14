@@ -1,7 +1,8 @@
 --!strict
 -- BoatHUD: visible only while the local player sits in a boat. Load-bearing info
 -- (the speedometer) sits on the LEFT. Touch devices get on-screen throttle/steer
--- pads; on PC there are NO arrows — you drive with W/A/S/D.
+-- pads that feed the BoatController; on PC there are NO arrows -- you drive with
+-- W/A/S/D (handled in the controller).
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -32,7 +33,8 @@ local function stroke(inst: Instance, color: Color3, thickness: number, transpar
 	s.Parent = inst
 end
 
-function BoatHUD.mount(remotes)
+-- controller: the BoatController module (we forward touch input to it)
+function BoatHUD.mount(controller)
 	local gui = Instance.new("ScreenGui")
 	gui.Name = "BoatHUD"
 	gui.ResetOnSpawn = false
@@ -79,7 +81,7 @@ function BoatHUD.mount(remotes)
 	unit.Position = UDim2.fromOffset(18, 72)
 	unit.Size = UDim2.fromOffset(154, 12)
 	unit.Font = Enum.Font.Gotham
-	unit.Text = "studs / s"
+	unit.Text = "knots"
 	unit.TextColor3 = SUBTEXT
 	unit.TextSize = 11
 	unit.TextXAlignment = Enum.TextXAlignment.Left
@@ -99,19 +101,12 @@ function BoatHUD.mount(remotes)
 	barFill.Parent = barBg
 	corner(barFill, 2)
 
-	-- ---- input state ----
-	local keyT, keyS, touchT, touchS = 0, 0, 0, 0
-	local lastT, lastS = 0, 0
-	local function push()
-		local throttle = math.clamp(keyT + touchT, -1, 1)
-		local steer = math.clamp(keyS + touchS, -1, 1)
-		if throttle ~= lastT or steer ~= lastS then
-			lastT, lastS = throttle, steer
-			remotes.BoatInput:FireServer(throttle, steer)
-		end
+	-- ---- touch input -> controller ----
+	local touchT, touchS = 0, 0
+	local function pushTouch()
+		controller.setTouch(math.clamp(touchT, -1, 1), math.clamp(touchS, -1, 1))
 	end
 
-	-- ---- touch controls (mobile only) ----
 	if isTouch then
 		local function pad(text: string, pos: UDim2, anchorX: number): TextButton
 			local b = Instance.new("TextButton")
@@ -135,8 +130,8 @@ function BoatHUD.mount(remotes)
 		local down = pad("▼", UDim2.new(1, -24, 1, -28), 1)
 
 		local function hold(btn: TextButton, on: () -> (), off: () -> ())
-			btn.MouseButton1Down:Connect(function() on(); push() end)
-			btn.MouseButton1Up:Connect(function() off(); push() end)
+			btn.MouseButton1Down:Connect(function() on(); pushTouch() end)
+			btn.MouseButton1Up:Connect(function() off(); pushTouch() end)
 		end
 		hold(left, function() touchS = -1 end, function() touchS = 0 end)
 		hold(right, function() touchS = 1 end, function() touchS = 0 end)
@@ -156,28 +151,7 @@ function BoatHUD.mount(remotes)
 		hint.Parent = gui
 	end
 
-	-- ---- keyboard input ----
-	local keyMap: { [Enum.KeyCode]: (number) -> () } = {
-		[Enum.KeyCode.W] = function(v) keyT += v end,
-		[Enum.KeyCode.S] = function(v) keyT -= v end,
-		[Enum.KeyCode.A] = function(v) keyS -= v end,
-		[Enum.KeyCode.D] = function(v) keyS += v end,
-		[Enum.KeyCode.Up] = function(v) keyT += v end,
-		[Enum.KeyCode.Down] = function(v) keyT -= v end,
-		[Enum.KeyCode.Left] = function(v) keyS -= v end,
-		[Enum.KeyCode.Right] = function(v) keyS += v end,
-	}
-	UserInputService.InputBegan:Connect(function(input, gpe)
-		if gpe then return end
-		local fn = keyMap[input.KeyCode]
-		if fn then fn(1); push() end
-	end)
-	UserInputService.InputEnded:Connect(function(input)
-		local fn = keyMap[input.KeyCode]
-		if fn then fn(-1); push() end
-	end)
-
-	-- ---- seat detection ----
+	-- ---- seat detection (show HUD + read speed) ----
 	local seatPart: BasePart? = nil
 	local function isBoatSeat(part: Instance?): boolean
 		local boats = workspace:FindFirstChild("Boats")
@@ -193,9 +167,8 @@ function BoatHUD.mount(remotes)
 			else
 				seatPart = nil
 				gui.Enabled = false
-				keyT, keyS, touchT, touchS = 0, 0, 0, 0
-				lastT, lastS = -99, -99
-				push()
+				touchT, touchS = 0, 0
+				pushTouch()
 			end
 		end)
 	end
@@ -206,7 +179,7 @@ function BoatHUD.mount(remotes)
 		if seatPart and seatPart.Parent then
 			local spd = seatPart.AssemblyLinearVelocity.Magnitude
 			value.Text = tostring(math.floor(spd + 0.5))
-			barFill.Size = UDim2.new(math.clamp(spd / Config.Boat.MaxSpeed, 0, 1), 0, 1, 0)
+			barFill.Size = UDim2.new(math.clamp(spd / Config.Boat.TopSpeed, 0, 1), 0, 1, 0)
 		end
 	end)
 end

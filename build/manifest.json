@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "instPath":  "ReplicatedStorage/Packages",
         "className":  "Folder",
@@ -22,12 +22,6 @@
         "className":  "Folder",
         "src":  null,
         "Order":  0
-    },
-    {
-        "instPath":  "StarterPlayerScripts/Client/OceanRenderer",
-        "className":  "ModuleScript",
-        "src":  "src/client/OceanRenderer.luau",
-        "Order":  54
     },
     {
         "instPath":  "StarterPlayerScripts/Client/Bootstrap",
@@ -72,12 +66,6 @@
         "Order":  5
     },
     {
-        "instPath":  "ReplicatedStorage/Shared/Wave",
-        "className":  "ModuleScript",
-        "src":  "src/shared/Wave.luau",
-        "Order":  1
-    },
-    {
         "instPath":  "StarterPlayerScripts/Client/Lighting",
         "className":  "ModuleScript",
         "src":  "src/client/Lighting.luau",
@@ -96,34 +84,10 @@
         "Order":  58
     },
     {
-        "instPath":  "ServerScriptService/Server/systems/FishAISystem",
-        "className":  "ModuleScript",
-        "src":  "src/server/systems/FishAISystem.luau",
-        "Order":  51
-    },
-    {
         "instPath":  "StarterPlayerScripts/Client/ui/SpawnMenu",
         "className":  "ModuleScript",
         "src":  "src/client/ui/SpawnMenu.luau",
         "Order":  57
-    },
-    {
-        "instPath":  "ServerScriptService/Server/systems/FishSpawnSystem",
-        "className":  "ModuleScript",
-        "src":  "src/server/systems/FishSpawnSystem.luau",
-        "Order":  50
-    },
-    {
-        "instPath":  "ServerScriptService/Server/systems/BuoyancySystem",
-        "className":  "ModuleScript",
-        "src":  "src/server/systems/BuoyancySystem.luau",
-        "Order":  48
-    },
-    {
-        "instPath":  "ServerScriptService/Server/systems/BoatMovementSystem",
-        "className":  "ModuleScript",
-        "src":  "src/server/systems/BoatMovementSystem.luau",
-        "Order":  49
     },
     {
         "instPath":  "ReplicatedStorage/Packages/Matter/component",
@@ -352,5 +316,17 @@
         "className":  "ModuleScript",
         "src":  "Packages/Matter/debugger/widgets/selectionList.luau",
         "Order":  36
+    },
+    {
+        "instPath":  "StarterPlayerScripts/Client/BoatController",
+        "className":  "ModuleScript",
+        "src":  "src/client/BoatController.luau",
+        "Order":  60
+    },
+    {
+        "instPath":  "ServerScriptService/Server/systems/BoatOwnershipSystem",
+        "className":  "ModuleScript",
+        "src":  "src/server/systems/BoatOwnershipSystem.luau",
+        "Order":  61
     }
 ]

@@ -1,40 +1,28 @@
 --!strict
--- Central tunables. Pure data — required by both server systems and the client
--- ocean renderer. Tune these live once it's running in Studio.
+-- Central tunables. Pure data -- required by the server bootstrap (ocean + boats)
+-- and the client (boat controller + HUD). Tune live in Studio.
 local Config = {
 	Ocean = {
-		Size = 1000,        -- studs: full width of the ocean plane (it follows the camera)
-		Resolution = 34,    -- grid cells per side (position+normal each frame -> modest = smooth)
-		BaseY = 0,          -- sea level in world Y (studs)
-		Color = Color3.fromRGB(16, 92, 126),
-		Transparency = 0.1,
+		Size = 8192,       -- studs: square of Terrain water (multiple of 4)
+		Depth = 512,       -- studs: how deep the water body goes (top surface at BaseY)
+		BaseY = 0,         -- sea level in world Y (the water surface)
+		-- Desaturated teal -- a real open sea, not a pool. (Less blue per request.)
+		WaterColor = Color3.fromRGB(34, 78, 74),
+		WaterReflectance = 1,     -- full sky reflection (needs Lighting.Technology = Future)
+		WaterTransparency = 0.2,  -- low = opaque deep ocean, a little depth tint
+		WaterWaveSize = 0.3,      -- 0..1 studs (engine cap is 1); visible ocean chop
+		WaterWaveSpeed = 14,      -- rolling swell speed
 	},
 
 	Boat = {
-		DriveForce = 55,     -- forward acceleration per unit throttle (studs/s^2, mass-cancelled)
-		TurnRate = 1.4,      -- yaw rate while steering (rad/s)
-		OrientResponse = 14, -- AlignOrientation responsiveness (higher = snappier upright)
-		WaveFollow = 0.5,    -- 0 = always flat, 1 = fully match the wave-surface tilt (lean into swells)
-		LinearDrag = 0.5,    -- horizontal velocity bleed-off per second
-		MaxSpeed = 90,       -- hard speed cap (studs/s)
-	},
-
-	Buoyancy = {
-		TargetSubmersion = 0.6, -- studs the hull rides under the surface at rest
-		Stiffness = 1.4,        -- restoring-force gain per (depth - target)/target
-		MaxLift = 3.0,          -- upward force cap as a multiple of boat weight (no launch)
-		Damping = 0.5,          -- vertical-velocity damping (kills bounce; mass-relative)
-	},
-
-	Fish = {
-		MaxCount = 45,
-		SpawnRadius = 220,  -- spawn fish within this distance of a player
-		DespawnRadius = 320,-- cull fish beyond this distance from every player
-		Speed = 13,         -- cruise speed (studs/s)
-		TurnRate = 2.5,     -- how fast a fish can change heading (rad/s)
-		DepthMin = -26,     -- deepest a fish swims (below BaseY)
-		DepthMax = -5,      -- shallowest a fish swims (below the surface)
-		Separation = 8,     -- comfortable spacing between fish (studs)
+		TopSpeed = 70,      -- studs/s the boat eases up to at full throttle
+		Accel = 1.4,        -- how fast velocity eases toward target (higher = snappier)
+		TurnRate = 1.5,     -- yaw rate at full steer (rad/s)
+		TurnAccel = 5,      -- how fast the turn eases in
+		Righting = 4,       -- self-leveling gain (keeps it from capsizing)
+		HullDensity = 0.5,  -- <1 floats on Terrain water; ~0.5 sits IN the water with a real waterline
+		SwayAmp = 0.06,     -- radians of gentle roll/pitch rock so it sways like a real boat
+		SwaySpeed = 0.85,   -- rock frequency
 	},
 }
 
