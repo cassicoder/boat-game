@@ -4,7 +4,7 @@
 local Config = {
 	Ocean = {
 		Size = 8192,       -- studs: square of Terrain water (multiple of 4)
-		Depth = 512,       -- studs: how deep the water body goes (top surface at BaseY)
+		Depth = 48,        -- studs: how deep the water body goes (top surface at BaseY)
 		BaseY = 0,         -- sea level in world Y (the water surface)
 		-- Desaturated teal -- a real open sea, not a pool. (Less blue per request.)
 		WaterColor = Color3.fromRGB(34, 78, 74),

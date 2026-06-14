@@ -29,15 +29,22 @@ end
 local Terrain = workspace.Terrain
 do
 	local o = Config.Ocean
-	-- snap to the 4-stud voxel grid
+	-- snap to the 4-stud voxel grid; tile the fill so each call stays under the
+	-- ~4M-voxel-per-operation cap (one big FillBlock errors with "extents too large").
 	local size = math.floor(o.Size / 4) * 4
 	local depth = math.floor(o.Depth / 4) * 4
-	-- top surface at BaseY => centre at BaseY - depth/2
-	Terrain:FillBlock(
-		CFrame.new(0, o.BaseY - depth / 2, 0),
-		Vector3.new(size, depth, size),
-		Enum.Material.Water
-	)
+	local tile = 2048
+	local half = size / 2
+	local cy = o.BaseY - depth / 2 -- top surface lands at BaseY
+	for x = -half, half - tile, tile do
+		for z = -half, half - tile, tile do
+			Terrain:FillBlock(
+				CFrame.new(x + tile / 2, cy, z + tile / 2),
+				Vector3.new(tile, depth, tile),
+				Enum.Material.Water
+			)
+		end
+	end
 	Terrain.WaterColor = o.WaterColor
 	Terrain.WaterReflectance = o.WaterReflectance
 	Terrain.WaterTransparency = o.WaterTransparency
