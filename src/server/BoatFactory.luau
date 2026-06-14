@@ -1,8 +1,9 @@
 --!strict
 -- Builds a part-only boat (no meshes, no toolbox): a flat hull base, low side walls,
 -- a pointed wedge bow, and a welded Seat. Only the hull simulates physics; everything
--- else is welded to it and Massless. The hull carries the buoyancy floaters (bottom
--- Attachments + World-relative VectorForces the BuoyancySystem drives each frame).
+-- else is welded to it and Massless. The hull carries ONE centred buoyancy VectorForce
+-- (the BuoyancySystem drives the Y bob) and an AlignOrientation that owns its rotation
+-- (the BoatMovementSystem steers it) -- so it physically cannot capsize.
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Config = require(ReplicatedStorage.Shared.Config)
 
@@ -43,8 +44,8 @@ local function weldTo(part: BasePart, hull: BasePart, model: Model, cf: CFrame)
 	part.Parent = model
 end
 
--- cframe: where to place the boat. Returns (model, seat, floaters, hull).
-function BoatFactory.build(cframe: CFrame): (Model, Seat, { VectorForce }, BasePart)
+-- cframe: where to place the boat. Returns (model, seat, floaters, align, hull).
+function BoatFactory.build(cframe: CFrame): (Model, Seat, { VectorForce }, AlignOrientation, BasePart)
 	local model = Instance.new("Model")
 	model.Name = "Boat"
 
@@ -130,40 +131,43 @@ function BoatFactory.build(cframe: CFrame): (Model, Seat, { VectorForce }, BaseP
 	seatWeld.Parent = seat
 	seat.Parent = model
 
-	-- Floaters: spread across the four hull-bottom corners so wave tilt makes roll & pitch.
-	-- Each gets a bottom Attachment + a World-relative VectorForce (driven by BuoyancySystem).
-	local floaters: { VectorForce } = {}
-	local count = Config.Buoyancy.FloaterCount
-	local cornerX = HULL_W / 2 - 1
-	local cornerZ = HULL_L / 2 - 1
-	-- Four corner offsets (front-left, front-right, back-left, back-right).
-	local corners = {
-		Vector3.new(-cornerX, -HULL_H / 2, -cornerZ),
-		Vector3.new(cornerX, -HULL_H / 2, -cornerZ),
-		Vector3.new(-cornerX, -HULL_H / 2, cornerZ),
-		Vector3.new(cornerX, -HULL_H / 2, cornerZ),
-	}
-	for i = 1, count do
-		-- Cycle through the corners so any FloaterCount stays spread to the four corners.
-		local offset = corners[((i - 1) % #corners) + 1]
+	-- Single centred buoyancy force (vertical only, applied at the centre of mass) drives
+	-- the Y bob. Because it acts through the CoM it can never impart a capsizing torque --
+	-- roll & pitch are owned entirely by the AlignOrientation below.
+	local buoyAtt = Instance.new("Attachment")
+	buoyAtt.Name = "BuoyancyPoint"
+	buoyAtt.Position = Vector3.new(0, -HULL_H / 2, 0) -- sampled at the hull bottom centre
+	buoyAtt.Parent = hull
 
-		local att = Instance.new("Attachment")
-		att.Name = "Floater" .. i
-		att.Position = offset
-		att.Parent = hull
+	local buoyVF = Instance.new("VectorForce")
+	buoyVF.Name = "BuoyancyForce"
+	buoyVF.Attachment0 = buoyAtt
+	buoyVF.RelativeTo = Enum.ActuatorRelativeTo.World
+	buoyVF.ApplyAtCenterOfMass = true
+	buoyVF.Force = Vector3.zero
+	buoyVF.Parent = hull
+	local floaters: { VectorForce } = { buoyVF }
 
-		local vf = Instance.new("VectorForce")
-		vf.Name = "FloaterForce" .. i
-		vf.Attachment0 = att
-		vf.RelativeTo = Enum.ActuatorRelativeTo.World
-		vf.ApplyAtCenterOfMass = false
-		vf.Force = Vector3.zero
-		vf.Parent = hull
+	-- Upright stabiliser: AlignOrientation eases the hull toward a goal CFrame the
+	-- movement system sets each frame (steering yaw + a gentle lean into the wave
+	-- surface). Non-rigid + finite Responsiveness => smooth swell-riding that can
+	-- NEVER tip past the wave normal, so the boat is physically unable to flip.
+	local orientAtt = Instance.new("Attachment")
+	orientAtt.Name = "OrientPoint"
+	orientAtt.Parent = hull
 
-		table.insert(floaters, vf)
-	end
+	local align = Instance.new("AlignOrientation")
+	align.Name = "Upright"
+	align.Mode = Enum.OrientationAlignmentMode.OneAttachment
+	align.Attachment0 = orientAtt
+	align.RigidityEnabled = false
+	align.MaxTorque = math.huge
+	align.MaxAngularVelocity = math.huge
+	align.Responsiveness = Config.Boat.OrientResponse
+	align.CFrame = cframe.Rotation
+	align.Parent = hull
 
-	return model, seat, floaters, hull
+	return model, seat, floaters, align, hull
 end
 
 return BoatFactory

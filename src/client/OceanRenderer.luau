@@ -83,7 +83,7 @@ local function build(size: number, res: number, baseY: number, color: Color3, tr
 	part.Material = Enum.Material.SmoothPlastic -- so the per-vertex normals shade the swell
 	part.Color = color
 	part.Transparency = transparency
-	part.Reflectance = 0.18 -- sky reflection for a wet sheen
+	part.Reflectance = 0.25 -- sky reflection for a wet sheen
 	part.Position = Vector3.new(0, baseY, 0)
 	part.Parent = Workspace
 

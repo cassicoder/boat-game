@@ -11,7 +11,8 @@ return {
 	--   model: Model,            -- the boat model (Parent = workspace.Boats)
 	--   hull: BasePart,          -- PrimaryPart, unanchored, server-owned physics
 	--   seat: Seat,              -- the seat you sit on
-	--   floaters: {VectorForce}, -- one per floater; each .Attachment0 = a sample point
+	--   floaters: {VectorForce}, -- single centred buoyancy force (drives the Y bob only)
+	--   align: AlignOrientation, -- owns the hull's rotation (steer yaw + wave lean; anti-capsize)
 	--   owner: Player,           -- who spawned it (drives via state.boatInput[owner])
 	-- }
 	Boat = Matter.component("Boat"),

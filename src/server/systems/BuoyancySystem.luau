@@ -1,12 +1,12 @@
 --!strict
 -- BuoyancySystem
--- Mass-calibrated, stable buoyancy. For each floater we sample the SAME Gerstner
--- surface the renderer draws and push up by how far the floater is submerged --
--- but the force is normalized so that at TargetSubmersion the floaters exactly
--- support the hull's weight, capped at MaxSubmersion so a deep dunk can never
--- produce an explosive impulse, and damped against the floater's vertical
--- velocity so the boat settles instead of launching. Spreading floaters to the
--- hull corners still lets it roll/pitch with the swell.
+-- One centred, mass-calibrated buoyancy force per boat. We sample the SAME Gerstner
+-- surface the renderer draws and push UP with a clamped restoring spring: it exactly
+-- supports the hull's weight at TargetSubmersion, rises with depth but is capped at
+-- MaxLift*weight so a deep dunk can never launch the boat, drops to zero once the
+-- point clears the surface, and is damped against vertical velocity so the hull
+-- settles instead of bobbing forever. The force acts through the centre of mass, so
+-- it only ever moves the boat in Y -- rotation is owned by the AlignOrientation.
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Wave = require(ReplicatedStorage.Shared.Wave)
@@ -25,38 +25,30 @@ return function(world, state)
 		end
 
 		local hull = boat.hull
-		local floaters = boat.floaters
-		local count = #floaters
-		if count == 0 then
+		local vf = boat.floaters[1]
+		if not vf then
+			continue
+		end
+		local att = vf.Attachment0
+		if not att then
 			continue
 		end
 
-		-- Each floater carries an equal share of the hull's weight at rest.
-		local perFloater = (hull.AssemblyMass * gravity) / count
+		local p = att.WorldPosition
+		local surfaceY = baseY + Wave.GetHeight(p.X, p.Z, t)
+		local depth = surfaceY - p.Y -- how far the hull centre sits under the surface
 
-		for _, vf in floaters do
-			local att = vf.Attachment0
-			if att then
-				local p = att.WorldPosition
-				local surfaceY = baseY + Wave.GetHeight(p.X, p.Z, t)
-				local depth = surfaceY - p.Y -- how far this floater sits under the surface
-
-				if depth > 0 then
-					-- Normalized submersion: full weight support at TargetSubmersion,
-					-- capped at MaxSubmersion so the force is always bounded.
-					local submersion = math.min(depth, buoy.MaxSubmersion) / buoy.TargetSubmersion
-					local up = perFloater * submersion * buoy.LiftBias
-
-					-- Damp the floater's vertical velocity (mass-relative) so the hull
-					-- settles onto the surface instead of bouncing/launching.
-					local velY = hull:GetVelocityAtPosition(p).Y
-					up -= buoy.Damping * perFloater * velY
-
-					vf.Force = Vector3.new(0, math.max(up, 0), 0)
-				else
-					vf.Force = Vector3.zero
-				end
-			end
+		local weight = hull.AssemblyMass * gravity -- force needed to hold it up
+		local lift = 0
+		if depth > 0 then
+			-- Clamped restoring spring: = weight at TargetSubmersion, capped at MaxLift.
+			local s = 1 + buoy.Stiffness * (depth - buoy.TargetSubmersion) / buoy.TargetSubmersion
+			lift = math.clamp(s, 0, buoy.MaxLift) * weight
+			-- Damp vertical velocity (mass-relative) so it settles onto the surface.
+			local velY = hull:GetVelocityAtPosition(p).Y
+			lift -= buoy.Damping * weight * velY
 		end
+
+		vf.Force = Vector3.new(0, math.max(lift, 0), 0)
 	end
 end

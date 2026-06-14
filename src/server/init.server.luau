@@ -54,7 +54,7 @@ local state = {
 
 -- Build a boat entity at a CFrame and register it in the ECS.
 local function spawnBoat(owner: Player?, cframe: CFrame): (number, Seat, Model)
-	local model, seat, floaters, hull = BoatFactory.build(cframe)
+	local model, seat, floaters, align, hull = BoatFactory.build(cframe)
 	model.Parent = boatFolder
 	pcall(function()
 		if hull:CanSetNetworkOwnership() then
@@ -66,6 +66,7 @@ local function spawnBoat(owner: Player?, cframe: CFrame): (number, Seat, Model)
 		hull = hull,
 		seat = seat,
 		floaters = floaters,
+		align = align,
 		owner = owner,
 	}))
 	return id, seat, model

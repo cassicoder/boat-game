@@ -11,20 +11,19 @@ local Config = {
 	},
 
 	Boat = {
-		DriveForce = 60,    -- forward acceleration per unit throttle (studs/s^2, mass-cancelled)
-		TurnRate = 1.6,     -- max yaw rate while turning (rad/s)
-		SteerResponse = 6,  -- how fast yaw eases toward target (higher = snappier, lower = floatier)
-		LinearDrag = 0.4,   -- horizontal velocity bleed-off per second
-		RollDamp = 0.85,    -- per-frame retain factor for roll/pitch (lower = steadier)
-		MaxSpeed = 100,     -- hard speed cap (studs/s)
+		DriveForce = 55,     -- forward acceleration per unit throttle (studs/s^2, mass-cancelled)
+		TurnRate = 1.4,      -- yaw rate while steering (rad/s)
+		OrientResponse = 14, -- AlignOrientation responsiveness (higher = snappier upright)
+		WaveFollow = 0.5,    -- 0 = always flat, 1 = fully match the wave-surface tilt (lean into swells)
+		LinearDrag = 0.5,    -- horizontal velocity bleed-off per second
+		MaxSpeed = 90,       -- hard speed cap (studs/s)
 	},
 
 	Buoyancy = {
-		FloaterCount = 4,        -- floaters BoatFactory spreads across the hull bottom
-		TargetSubmersion = 0.55, -- studs the hull settles under the surface at rest
-		MaxSubmersion = 4.0,     -- cap so a deep dunk can't produce an explosive force
-		LiftBias = 1.7,          -- >1 floats the boat higher (more freeboard above water)
-		Damping = 0.22,          -- vertical-velocity damping (mass-relative; kills launch)
+		TargetSubmersion = 0.6, -- studs the hull rides under the surface at rest
+		Stiffness = 1.4,        -- restoring-force gain per (depth - target)/target
+		MaxLift = 3.0,          -- upward force cap as a multiple of boat weight (no launch)
+		Damping = 0.5,          -- vertical-velocity damping (kills bounce; mass-relative)
 	},
 
 	Fish = {

@@ -24,7 +24,8 @@ export type WaveDef = {
 local WAVES: { WaveDef } = {
 	{ direction = Vector2.new( 1.0,  0.35), wavelength = 150, amplitude = 4.5, steepness = 0.50, speed = 12 }, -- big rolling swell
 	{ direction = Vector2.new(-0.5,  1.0),  wavelength = 100, amplitude = 2.6, steepness = 0.45, speed = 10 }, -- cross swell
-	{ direction = Vector2.new( 0.7, -0.6),  wavelength = 70,  amplitude = 1.4, steepness = 0.40, speed = 8  }, -- surface detail
+	{ direction = Vector2.new( 0.7, -0.6),  wavelength = 70,  amplitude = 1.4, steepness = 0.40, speed = 8  }, -- surface chop
+	{ direction = Vector2.new(-0.8, -0.35), wavelength = 42,  amplitude = 0.8, steepness = 0.35, speed = 7  }, -- fine detail / crest definition
 }
 
 local TAU = 2 * math.pi
